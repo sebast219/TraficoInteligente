@@ -308,7 +308,8 @@ Si quieres profundizar en los conceptos usados:
 
 ## 👨‍💻 Autor
 
-Proyecto desarrollado como ejemplo didáctico de:
+Proyecto desarrollado por Sebastian yepes y Andrés Sánchez:
+
 - Estructuras de datos aplicadas
 - Algoritmos de grafos
 - Programación orientada a objetos
@@ -325,11 +326,6 @@ Este proyecto es de código abierto y puede ser usado con fines educativos.
 ## 🎓 Uso Académico
 
 Este proyecto es ideal para:
-- ✅ Tesis de pregrado en Sistemas/Computación
-- ✅ Proyectos de curso de Estructuras de Datos
-- ✅ Proyectos de curso de Algoritmos
-- ✅ Proyectos de curso de POO
-- ✅ Proyectos integradores de carrera
 
 **Conceptos evaluables:**
 - Implementación de grafos
@@ -338,16 +334,3 @@ Este proyecto es ideal para:
 - Interfaces gráficas
 - Documentación de código
 
----
-
-## 📞 Soporte
-
-Si tienes problemas:
-1. Revisa que JavaFX esté correctamente configurado
-2. Verifica la versión de Java (mínimo Java 11)
-3. Asegúrate de que la estructura de carpetas sea correcta
-4. Compila primero todas las clases del modelo antes de ejecutar
-
----
-
-**¡Disfruta explorando el sistema de tráfico inteligente! 🚦🚑**
