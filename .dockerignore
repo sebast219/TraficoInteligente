@@ -1,0 +1,14 @@
+.git
+.gitignore
+*.md
+target/
+*.iml
+.idea/
+.vscode/
+*.class
+*.log
+*.jar
+.DS_Store
+Thumbs.db
+node_modules/
+
