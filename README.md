@@ -17,30 +17,107 @@ Sistema de simulación de tráfico que demuestra el funcionamiento de una ambula
 
 ## 🏗️ Estructura del Proyecto
 
+### Estructura Completa del Proyecto
+
 ```
-TraficoInteligente/
+TraficoInteligente-1/
 │
-├── src/
-│   └── com/
-│       └── trafico/
-│           ├── Main.java                    # Punto de entrada
-│           │
-│           ├── model/                       # Modelo de datos (POO)
-│           │   ├── Nodo.java               # Intersección con semáforo
-│           │   ├── Arista.java             # Vía entre intersecciones
-│           │   ├── Grafo.java              # Grafo + Dijkstra
-│           │   ├── Vehiculo.java           # Clase base abstracta
-│           │   ├── Ambulancia.java         # Vehículo de emergencia
-│           │   └── Semaforo.java           # Control semafórico
-│           │
-│           ├── controller/                  # Controladores
-│           │   └── MapaController.java     # Lógica de UI y animación
-│           │
-│           └── util/                        # Utilidades
-│               └── Simulador.java          # Motor de simulación
+├── 📄 Dockerfile                          # Configuración Docker
+├── 📄 docker-compose.yml                  # Orquestación Docker (Linux/Mac)
+├── 📄 docker-compose.windows.yml          # Orquestación Docker (Windows)
+├── 📄 pom.xml                             # Configuración Maven
+├── 📄 .dockerignore                       # Exclusiones Docker
+├── 📄 run.sh                              # Script ejecución Linux/Mac
+├── 📄 run.bat                             # Script ejecución Windows
+├── 📄 Makefile                            # Comandos Make
+├── 📄 README.md                           # Este archivo
+├── 📄 README_DOCKER.md                    # Documentación Docker
+├── 📄 INFORME_AUDITORIA.md                # Informe de auditoría completo
+├── 📄 TraficoInteligente-1.iml           # Configuración IntelliJ
 │
-└── README.md
+└── 📁 TraficoInteligente/
+    ├── 📄 README.md                        # Documentación del módulo
+    │
+    └── 📁 src/
+        └── 📁 com/
+            └── 📁 trafico/
+                ├── 📄 Main.java                    # Punto de entrada
+                │
+                ├── 📁 model/                       # Modelo de datos (POO)
+                │   ├── 📄 Nodo.java               # Intersección con semáforo
+                │   ├── 📄 Arista.java             # Vía entre intersecciones
+                │   ├── 📄 Grafo.java              # Grafo + Dijkstra
+                │   ├── 📄 Vehiculo.java           # Clase base abstracta
+                │   ├── 📄 Ambulancia.java         # Vehículo de emergencia
+                │   └── 📄 Semaforo.java           # Control semafórico
+                │
+                ├── 📁 controller/                  # Controladores
+                │   └── 📄 MapaController.java     # Lógica de UI y animación
+                │
+                └── 📁 util/                        # Utilidades
+                    └── 📄 Simulador.java          # Motor de simulación
 ```
+
+### ✅ Checklist de Archivos
+
+#### Archivos de Código Fuente (src/)
+- [x] Main.java
+- [x] model/Nodo.java
+- [x] model/Arista.java
+- [x] model/Grafo.java
+- [x] model/Vehiculo.java
+- [x] model/Ambulancia.java
+- [x] model/Semaforo.java
+- [x] controller/MapaController.java
+- [x] util/Simulador.java
+
+#### Archivos de Configuración Docker
+- [x] Dockerfile
+- [x] docker-compose.yml
+- [x] docker-compose.windows.yml
+- [x] pom.xml
+- [x] .dockerignore
+
+#### Scripts de Ejecución
+- [x] run.sh (Linux/Mac)
+- [x] run.bat (Windows)
+- [x] Makefile (opcional)
+
+#### Documentación
+- [x] README.md
+- [x] README_DOCKER.md
+- [x] INFORME_AUDITORIA.md
+
+---
+
+## 🔧 Estado de Integración
+
+### Estado Actual del Proyecto
+
+⚠️ **IMPORTANTE:** Este proyecto está en fase de **ESQUELETO/PLANTILLA**. El código Java tiene la estructura básica pero requiere implementación completa.
+
+#### Componentes Listos:
+- ✅ **Estructura de directorios:** Completa y correcta
+- ✅ **Configuración Docker:** Completamente funcional
+- ✅ **Configuración Maven:** Correcta con dependencias JavaFX
+- ✅ **Scripts de ejecución:** Preparados para Docker
+
+#### Componentes Pendientes:
+- ❌ **Código Java:** Packages comentados, sin implementación funcional
+- ❌ **Método main():** No implementado en Main.java
+- ❌ **Clases del modelo:** Solo contienen TODOs, sin código funcional
+- ❌ **Algoritmo de Dijkstra:** No implementado
+- ❌ **Interfaz JavaFX:** No implementada
+
+**Para ver el estado detallado, consulta:** `INFORME_AUDITORIA.md`
+
+#### Próximos Pasos para Completar el Proyecto:
+
+1. **Descomentar packages** en todos los archivos Java
+2. **Implementar estructura básica** de cada clase
+3. **Implementar algoritmo de Dijkstra** en Grafo.java
+4. **Implementar interfaz JavaFX** en Main.java y MapaController.java
+5. **Implementar lógica de simulación** en Simulador.java
 
 ---
 
