@@ -1,15 +1,19 @@
 # 🚑 Sistema de Tráfico Urbano Inteligente
 
-Sistema de simulación de tráfico que demuestra el funcionamiento de una ambulancia con prioridad semafórica inteligente en una ciudad, utilizando el algoritmo de Dijkstra para calcular rutas óptimas.
+Sistema de simulación de tráfico que demuestra el funcionamiento de una ambulancia con **prioridad semafórica inteligente** en una ciudad, utilizando el **algoritmo de Dijkstra** para calcular rutas óptimas.
+
+---
 
 ## 📋 Características Principales
 
-✅ Programación Orientada a Objetos (POO)
-✅ Estructuras de datos: Grafo, Cola de Prioridad, Listas, Mapas
-✅ Algoritmo de Dijkstra para rutas más cortas
-✅ Semáforos inteligentes con prioridad dinámica
-✅ Animación 2D en JavaFX Canvas
-✅ Interfaz gráfica interactiva
+✅ **Programación Orientada a Objetos (POO)**  
+✅ **Estructuras de datos**: Grafo, Cola de Prioridad, Listas, Mapas  
+✅ **Algoritmo de Dijkstra** para rutas más cortas  
+✅ **Semáforos inteligentes** con prioridad dinámica  
+✅ **Animación 2D en JavaFX Canvas**  
+✅ **Interfaz gráfica interactiva**  
+
+---
 
 ## 🏗️ Estructura del Proyecto
 
@@ -38,40 +42,84 @@ TraficoInteligente/
 └── README.md
 ```
 
+---
+
 ## 🚀 Cómo Ejecutar el Proyecto
 
-### Requisitos Previos
-- Java JDK 11 o superior
-- JavaFX SDK (si no está incluido en tu JDK)
-- IDE recomendado: IntelliJ IDEA, Eclipse o NetBeans
+### 🐳 Opción A: Con Docker (RECOMENDADO) ⭐
+
+**¿Por qué Docker?**
+- ✅ No necesitas instalar Java ni JavaFX
+- ✅ Funciona en cualquier sistema operativo
+- ✅ Configuración automática
+- ✅ Entorno reproducible
+
+**Requisitos:**
+- Docker Desktop instalado
+- **Linux/Mac**: X11 configurado (generalmente ya incluido)
+- **Windows**: VcXsrv o Xming instalado
+
+**Ejecución rápida:**
+
+```bash
+# Linux/Mac
+chmod +x run.sh
+./run.sh
+
+# Windows
+run.bat
+```
+
+O manualmente:
+
+```bash
+# Construir imagen
+docker-compose build
+
+# Ejecutar
+docker-compose up
+```
+
+### 💻 Opción B: Instalación Local
+
+**Requisitos Previos:**
+- **Java JDK 11 o superior**
+- **JavaFX SDK** (si no está incluido en tu JDK)
+- **IDE recomendado**: IntelliJ IDEA, Eclipse o NetBeans
 
 ### Pasos de Instalación
 
 #### 1️⃣ Crear el Proyecto
 
 **En IntelliJ IDEA:**
-- `File → New → Project → JavaFX Application`
+```
+File → New → Project → JavaFX Application
+```
 
 **En Eclipse:**
-- `File → New → JavaFX Project`
+```
+File → New → JavaFX Project
+```
 
 #### 2️⃣ Copiar los Archivos
 
 Copia todo el código en la estructura de carpetas indicada:
 
-- `src/com/trafico/Main.java`
-- `src/com/trafico/model/Nodo.java`
-- `src/com/trafico/model/Arista.java`
-- `src/com/trafico/model/Grafo.java`
-- `src/com/trafico/model/Vehiculo.java`
-- `src/com/trafico/model/Ambulancia.java`
-- `src/com/trafico/model/Semaforo.java`
-- `src/com/trafico/controller/MapaController.java`
-- `src/com/trafico/util/Simulador.java`
+```
+src/com/trafico/Main.java
+src/com/trafico/model/Nodo.java
+src/com/trafico/model/Arista.java
+src/com/trafico/model/Grafo.java
+src/com/trafico/model/Vehiculo.java
+src/com/trafico/model/Ambulancia.java
+src/com/trafico/model/Semaforo.java
+src/com/trafico/controller/MapaController.java
+src/com/trafico/util/Simulador.java
+```
 
 #### 3️⃣ Configurar JavaFX
 
-**Si usas Maven, agrega al `pom.xml`:**
+**Si usas Maven**, agrega al `pom.xml`:
 
 ```xml
 <dependencies>
@@ -83,22 +131,25 @@ Copia todo el código en la estructura de carpetas indicada:
 </dependencies>
 ```
 
-**Si no usas Maven, descarga JavaFX SDK:**
+**Si no usas Maven**, descarga JavaFX SDK:
 - Descarga desde: https://openjfx.io/
 - Agrega las librerías al classpath del proyecto
 
 #### 4️⃣ Ejecutar
 
 **Desde el IDE:**
-- `Run → Main.java`
+```
+Run → Main.java
+```
 
 **Desde terminal (con JavaFX configurado):**
-
 ```bash
 javac --module-path /path/to/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml -d bin src/com/trafico/*.java src/com/trafico/*/*.java
 
 java --module-path /path/to/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml -cp bin com.trafico.Main
 ```
+
+---
 
 ## 🎮 Cómo Usar la Aplicación
 
@@ -106,19 +157,21 @@ java --module-path /path/to/javafx-sdk/lib --add-modules javafx.controls,javafx.
 
 | Botón | Función |
 |-------|---------|
-| 🚑 **Iniciar Emergencia** | Inicia la ruta de la ambulancia desde la base hasta el accidente |
-| ⏸ **Pausar** | Pausa la simulación |
-| 🔄 **Reiniciar** | Reinicia la simulación al estado inicial |
+| **🚑 Iniciar Emergencia** | Inicia la ruta de la ambulancia desde la base hasta el accidente |
+| **⏸ Pausar** | Pausa la simulación |
+| **🔄 Reiniciar** | Reinicia la simulación al estado inicial |
 
 ### Visualización
 
-- 🟢 **Verde**: Semáforo abierto (ambulancia tiene prioridad)
-- 🟡 **Amarillo**: Semáforo en transición
-- 🔴 **Rojo**: Semáforo cerrado
-- 🚑: Ambulancia en movimiento
-- 📍: Ubicación del accidente
-- 🏥: Hospital destino
+- **🟢 Verde**: Semáforo abierto (ambulancia tiene prioridad)
+- **🟡 Amarillo**: Semáforo en transición
+- **🔴 Rojo**: Semáforo cerrado
+- **🚑**: Ambulancia en movimiento
+- **📍**: Ubicación del accidente
+- **🏥**: Hospital destino
 - **Línea verde**: Ruta calculada por Dijkstra
+
+---
 
 ## 🧠 Conceptos Técnicos Implementados
 
@@ -176,18 +229,22 @@ public void mover(double deltaX, double deltaY) {
 }
 ```
 
+---
+
 ## 📊 Complejidad del Algoritmo
 
 | Operación | Complejidad |
-|-----------|------------|
-| Dijkstra con Cola de Prioridad | O((V + E) log V) |
-| Agregar Nodo | O(1) |
-| Agregar Arista | O(1) |
-| Buscar Nodo | O(1) con HashMap |
+|-----------|-------------|
+| **Dijkstra con Cola de Prioridad** | O((V + E) log V) |
+| **Agregar Nodo** | O(1) |
+| **Agregar Arista** | O(1) |
+| **Buscar Nodo** | O(1) con HashMap |
 
 Donde:
-- **V** = número de vértices (nodos/intersecciones)
-- **E** = número de aristas (calles)
+- V = número de vértices (nodos/intersecciones)
+- E = número de aristas (calles)
+
+---
 
 ## 🔧 Personalización del Mapa
 
@@ -202,15 +259,19 @@ grafo.agregarNodo(nuevoNodo);
 crearAristaBidireccional(nodoExistente, nuevoNodo, distancia);
 ```
 
+---
+
 ## 🎯 Posibles Extensiones
 
-- Múltiples ambulancias simultáneas
-- Tráfico dinámico (cambios aleatorios en peso de aristas)
-- Algoritmo A* en lugar de Dijkstra (con heurística)
-- Obstáculos temporales (accidentes que bloquean vías)
-- Estadísticas avanzadas (tiempo promedio, consumo de combustible)
-- Guardado/carga de configuraciones de ciudad
-- Modo noche/día con cambios en el tráfico
+1. **Múltiples ambulancias** simultáneas
+2. **Tráfico dinámico** (cambios aleatorios en peso de aristas)
+3. **Algoritmo A*** en lugar de Dijkstra (con heurística)
+4. **Obstáculos temporales** (accidentes que bloquean vías)
+5. **Estadísticas avanzadas** (tiempo promedio, consumo de combustible)
+6. **Guardado/carga** de configuraciones de ciudad
+7. **Modo noche/día** con cambios en el tráfico
+
+---
 
 ## 📚 Conceptos para Estudiar
 
@@ -222,6 +283,8 @@ Si quieres profundizar en los conceptos usados:
 - **JavaFX**: Canvas, AnimationTimer, GraphicsContext
 - **Patrones de diseño**: MVC (Model-View-Controller)
 - **Programación concurrente**: Threads, tareas asíncronas
+
+---
 
 ## 🐛 Solución de Problemas
 
@@ -241,6 +304,8 @@ Si quieres profundizar en los conceptos usados:
 - Asegúrate de presionar el botón "Iniciar Emergencia"
 - Verifica que la ruta exista entre los nodos
 
+---
+
 ## 👨‍💻 Autor
 
 Proyecto desarrollado como ejemplo didáctico de:
@@ -249,19 +314,22 @@ Proyecto desarrollado como ejemplo didáctico de:
 - Programación orientada a objetos
 - Interfaces gráficas con JavaFX
 
+---
+
 ## 📄 Licencia
 
 Este proyecto es de código abierto y puede ser usado con fines educativos.
 
+---
+
 ## 🎓 Uso Académico
 
 Este proyecto es ideal para:
-
-✅ Tesis de pregrado en Sistemas/Computación
-✅ Proyectos de curso de Estructuras de Datos
-✅ Proyectos de curso de Algoritmos
-✅ Proyectos de curso de POO
-✅ Proyectos integradores de carrera
+- ✅ Tesis de pregrado en Sistemas/Computación
+- ✅ Proyectos de curso de Estructuras de Datos
+- ✅ Proyectos de curso de Algoritmos
+- ✅ Proyectos de curso de POO
+- ✅ Proyectos integradores de carrera
 
 **Conceptos evaluables:**
 - Implementación de grafos
@@ -270,13 +338,16 @@ Este proyecto es ideal para:
 - Interfaces gráficas
 - Documentación de código
 
+---
+
 ## 📞 Soporte
 
 Si tienes problemas:
-- Revisa que JavaFX esté correctamente configurado
-- Verifica la versión de Java (mínimo Java 11)
-- Asegúrate de que la estructura de carpetas sea correcta
-- Compila primero todas las clases del modelo antes de ejecutar
+1. Revisa que JavaFX esté correctamente configurado
+2. Verifica la versión de Java (mínimo Java 11)
+3. Asegúrate de que la estructura de carpetas sea correcta
+4. Compila primero todas las clases del modelo antes de ejecutar
 
-¡Disfruta explorando el sistema de tráfico inteligente! 🚦🚑
+---
 
+**¡Disfruta explorando el sistema de tráfico inteligente! 🚦🚑**
