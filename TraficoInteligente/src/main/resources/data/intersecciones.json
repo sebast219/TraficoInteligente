@@ -1,0 +1,111 @@
+{
+  "mapa": {
+    "bounds": {
+      "norte": -25.2750,
+      "sur": -25.2850,
+      "oeste": -57.6400,
+      "este": -57.6300
+    },
+    "centro": [-25.2821, -57.6351]
+  },
+  "intersecciones": [
+    {
+      "id": "n0",
+      "nombre": "Base",
+      "latitud": -25.2821,
+      "longitud": -57.6351,
+      "tipo": "base"
+    },
+    {
+      "id": "n1",
+      "nombre": "Palma y Palacio",
+      "latitud": -25.2818,
+      "longitud": -57.6365,
+      "tipo": "interseccion"
+    },
+    {
+      "id": "n2",
+      "nombre": "Palma y Alberdi",
+      "latitud": -25.2825,
+      "longitud": -57.6338,
+      "tipo": "interseccion"
+    },
+    {
+      "id": "n3",
+      "nombre": "Chile y Independencia",
+      "latitud": -25.2830,
+      "longitud": -57.6355,
+      "tipo": "interseccion"
+    },
+    {
+      "id": "n4",
+      "nombre": "Palma y Estrella",
+      "latitud": -25.2815,
+      "longitud": -57.6375,
+      "tipo": "interseccion"
+    },
+    {
+      "id": "n5",
+      "nombre": "Alberdi y Estrella",
+      "latitud": -25.2828,
+      "longitud": -57.6378,
+      "tipo": "interseccion"
+    },
+    {
+      "id": "n6",
+      "nombre": "Accidente",
+      "latitud": -25.2835,
+      "longitud": -57.6340,
+      "tipo": "accidente"
+    },
+    {
+      "id": "n7",
+      "nombre": "Hospital",
+      "latitud": -25.2805,
+      "longitud": -57.6320,
+      "tipo": "hospital"
+    },
+    {
+      "id": "n8",
+      "nombre": "Palma y 14 de Mayo",
+      "latitud": -25.2810,
+      "longitud": -57.6385,
+      "tipo": "interseccion"
+    },
+    {
+      "id": "n9",
+      "nombre": "Alberdi y 14 de Mayo",
+      "latitud": -25.2823,
+      "longitud": -57.6388,
+      "tipo": "interseccion"
+    },
+    {
+      "id": "n10",
+      "nombre": "Chile y Mariscal López",
+      "latitud": -25.2832,
+      "longitud": -57.6360,
+      "tipo": "interseccion"
+    }
+  ],
+  "calles": [
+    {
+      "origen": "n0",
+      "destino": "n1",
+      "nombre": "Calle Palma",
+      "distancia_metros": 150
+    },
+    {
+      "origen": "n0",
+      "destino": "n2",
+      "nombre": "Calle Alberdi",
+      "distancia_metros": 180
+    },
+    {
+      "origen": "n0",
+      "destino": "n3",
+      "nombre": "Calle Chile",
+      "distancia_metros": 200
+    }
+  ]
+}
+
