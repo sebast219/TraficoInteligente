@@ -136,9 +136,13 @@ public class MapaController {
     
     private void reiniciarSimulacion() {
         simulador.reiniciar();
-        lblEstado.setText("Estado: Reiniciado");
+        lblEstado.setText("Estado: Esperando");
         lblDistancia.setText("Distancia: 0 km");
         lblTiempo.setText("Tiempo: 0 min");
+        // Reiniciar animación si estaba pausada
+        if (animacion != null) {
+            animacion.start();
+        }
     }
     
     private void iniciarAnimacion() {

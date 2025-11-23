@@ -206,6 +206,8 @@ public class Simulador {
         if (base != null && ambulancia != null) {
             ambulancia.setX(base.getX());
             ambulancia.setY(base.getY());
+            // Reiniciar estado de emergencia de la ambulancia
+            ambulancia.reiniciar();
         }
         // Reiniciar semáforos
         for (Nodo nodo : grafo.getNodos().values()) {

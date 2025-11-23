@@ -22,16 +22,10 @@ Sistema de simulación de tráfico que demuestra el funcionamiento de una ambula
 ```
 TraficoInteligente-1/
 │
-├── 📄 Dockerfile                          # Configuración Docker
-├── 📄 docker-compose.yml                  # Orquestación Docker (Linux/Mac)
-├── 📄 docker-compose.windows.yml          # Orquestación Docker (Windows)
 ├── 📄 pom.xml                             # Configuración Maven
-├── 📄 .dockerignore                       # Exclusiones Docker
-├── 📄 run.sh                              # Script ejecución Linux/Mac
-├── 📄 run.bat                             # Script ejecución Windows
-├── 📄 Makefile                            # Comandos Make
 ├── 📄 README.md                           # Este archivo
-├── 📄 README_DOCKER.md                    # Documentación Docker
+├── 📄 GUIA_INTELLIJ.md                     # Guía de ejecución en IntelliJ
+├── 📄 REQUISITOS_PROYECTO.md               # Requisitos y estado del proyecto
 ├── 📄 INFORME_AUDITORIA.md                # Informe de auditoría completo
 ├── 📄 TraficoInteligente-1.iml           # Configuración IntelliJ
 │
@@ -71,160 +65,59 @@ TraficoInteligente-1/
 - [x] controller/MapaController.java
 - [x] util/Simulador.java
 
-#### Archivos de Configuración Docker
-- [x] Dockerfile
-- [x] docker-compose.yml
-- [x] docker-compose.windows.yml
-- [x] pom.xml
-- [x] .dockerignore
-
-#### Scripts de Ejecución
-- [x] run.sh (Linux/Mac)
-- [x] run.bat (Windows)
-- [x] Makefile (opcional)
+#### Archivos de Configuración
+- [x] pom.xml (Maven)
 
 #### Documentación
 - [x] README.md
-- [x] README_DOCKER.md
+- [x] GUIA_INTELLIJ.md
+- [x] REQUISITOS_PROYECTO.md
 - [x] INFORME_AUDITORIA.md
 
 ---
 
-## 🔧 Estado de Integración
+## 🔧 Estado del Proyecto
 
-### Estado Actual del Proyecto
+### ✅ Estado Actual: COMPLETO Y FUNCIONAL
 
-⚠️ **IMPORTANTE:** Este proyecto está en fase de **ESQUELETO/PLANTILLA**. El código Java tiene la estructura básica pero requiere implementación completa.
+El proyecto está **100% implementado y funcional**. Todos los componentes principales están desarrollados y listos para ejecutarse.
 
-#### Componentes Listos:
+#### Componentes Implementados:
 - ✅ **Estructura de directorios:** Completa y correcta
-- ✅ **Configuración Docker:** Completamente funcional
+- ✅ **Código Java:** Completamente implementado y funcional
 - ✅ **Configuración Maven:** Correcta con dependencias JavaFX
-- ✅ **Scripts de ejecución:** Preparados para Docker
+- ✅ **Algoritmo de Dijkstra:** Implementado en Grafo.java
+- ✅ **Interfaz JavaFX:** Completamente implementada
+- ✅ **Simulación:** Funcional con ambulancia, semáforos y animación
 
-#### Componentes Pendientes:
-- ❌ **Código Java:** Packages comentados, sin implementación funcional
-- ❌ **Método main():** No implementado en Main.java
-- ❌ **Clases del modelo:** Solo contienen TODOs, sin código funcional
-- ❌ **Algoritmo de Dijkstra:** No implementado
-- ❌ **Interfaz JavaFX:** No implementada
-
-**Para ver el estado detallado, consulta:** `INFORME_AUDITORIA.md`
-
-#### Próximos Pasos para Completar el Proyecto:
-
-1. **Descomentar packages** en todos los archivos Java
-2. **Implementar estructura básica** de cada clase
-3. **Implementar algoritmo de Dijkstra** en Grafo.java
-4. **Implementar interfaz JavaFX** en Main.java y MapaController.java
-5. **Implementar lógica de simulación** en Simulador.java
+**Para ver el estado detallado, consulta:** `REQUISITOS_PROYECTO.md`  
+**Para ejecutar en IntelliJ, consulta:** `GUIA_INTELLIJ.md`
 
 ---
 
 ## 🚀 Cómo Ejecutar el Proyecto
 
-### 🐳 Opción A: Con Docker (RECOMENDADO) ⭐
-
-**¿Por qué Docker?**
-- ✅ No necesitas instalar Java ni JavaFX
-- ✅ Funciona en cualquier sistema operativo
-- ✅ Configuración automática
-- ✅ Entorno reproducible
-
-**Requisitos:**
-- Docker Desktop instalado
-- **Linux/Mac**: X11 configurado (generalmente ya incluido)
-- **Windows**: VcXsrv o Xming instalado
-
-**Ejecución rápida:**
-
-```bash
-# Linux/Mac
-chmod +x run.sh
-./run.sh
-
-# Windows
-run.bat
-```
-
-O manualmente:
-
-```bash
-# Construir imagen
-docker-compose build
-
-# Ejecutar
-docker-compose up
-```
-
-### 💻 Opción B: Instalación Local
+### 💻 Instalación Local (Recomendado)
 
 **Requisitos Previos:**
-- **Java JDK 11 o superior**
-- **JavaFX SDK** (si no está incluido en tu JDK)
-- **IDE recomendado**: IntelliJ IDEA, Eclipse o NetBeans
+- **Java JDK 17 o superior**
+- **IntelliJ IDEA** (recomendado) o cualquier IDE Java
+- **Maven** (incluido en IntelliJ)
 
-### Pasos de Instalación
+### 📖 Guía Completa de Ejecución
 
-#### 1️⃣ Crear el Proyecto
+Para una guía detallada paso a paso de cómo ejecutar el proyecto en IntelliJ IDEA, consulta:
 
-**En IntelliJ IDEA:**
-```
-File → New → Project → JavaFX Application
-```
+👉 **[GUIA_INTELLIJ.md](GUIA_INTELLIJ.md)**
 
-**En Eclipse:**
-```
-File → New → JavaFX Project
-```
+### Resumen Rápido:
 
-#### 2️⃣ Copiar los Archivos
+1. **Abrir proyecto en IntelliJ IDEA**
+2. **Configurar SDK de Java 17+** en Project Structure
+3. **Sincronizar Maven** (descargar dependencias)
+4. **Ejecutar** `Main.java`
 
-Copia todo el código en la estructura de carpetas indicada:
-
-```
-src/com/trafico/Main.java
-src/com/trafico/model/Nodo.java
-src/com/trafico/model/Arista.java
-src/com/trafico/model/Grafo.java
-src/com/trafico/model/Vehiculo.java
-src/com/trafico/model/Ambulancia.java
-src/com/trafico/model/Semaforo.java
-src/com/trafico/controller/MapaController.java
-src/com/trafico/util/Simulador.java
-```
-
-#### 3️⃣ Configurar JavaFX
-
-**Si usas Maven**, agrega al `pom.xml`:
-
-```xml
-<dependencies>
-    <dependency>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-controls</artifactId>
-        <version>17.0.2</version>
-    </dependency>
-</dependencies>
-```
-
-**Si no usas Maven**, descarga JavaFX SDK:
-- Descarga desde: https://openjfx.io/
-- Agrega las librerías al classpath del proyecto
-
-#### 4️⃣ Ejecutar
-
-**Desde el IDE:**
-```
-Run → Main.java
-```
-
-**Desde terminal (con JavaFX configurado):**
-```bash
-javac --module-path /path/to/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml -d bin src/com/trafico/*.java src/com/trafico/*/*.java
-
-java --module-path /path/to/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml -cp bin com.trafico.Main
-```
+**Nota:** El proyecto usa Maven, por lo que JavaFX se descarga automáticamente. No necesitas instalar JavaFX manualmente.
 
 ---
 

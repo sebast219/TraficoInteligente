@@ -46,6 +46,13 @@ public class Ambulancia extends Vehiculo {
         }
     }
     
+    public void reiniciar() {
+        this.rutaActual = null;
+        this.destino = null;
+        this.enEmergencia = false;
+        this.indiceRutaActual = 0;
+    }
+    
     // Getters
     public List<Nodo> getRutaActual() { return rutaActual; }
     public boolean isEnEmergencia() { return enEmergencia; }
