@@ -1,3 +1,6 @@
+// ============================================
+// Ambulancia.java - MEJORADA
+// ============================================
 package com.trafico.model;
 
 import java.util.List;
