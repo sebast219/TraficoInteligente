@@ -14,14 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Glow;
 
 import java.util.List;
 
-/**
- * Controlador mejorado con visualización avanzada del sistema inteligente.
- */
 public class MapaController {
     private BorderPane root;
     private Canvas canvas;
@@ -32,12 +27,16 @@ public class MapaController {
 
     // Labels de información
     private Label lblEstado;
+    private Label lblEstadoDetallado;
     private Label lblDistancia;
     private Label lblTiempo;
     private Label lblProgreso;
     private Label lblRutasRecalculadas;
     private Label lblCongestion;
     private Label lblSemaforosPrioridad;
+    private Label lblPosicionInicial;
+    private Label lblUbicacionAccidente;
+    private Label lblUbicacionHospital;
 
     public MapaController(BorderPane root) {
         this.root = root;
@@ -58,12 +57,12 @@ public class MapaController {
         panelSuperior.setAlignment(Pos.CENTER);
         panelSuperior.setStyle("-fx-background-color: linear-gradient(to bottom, #2c3e50, #34495e);");
 
-        Button btnIniciar = new Button("🚑 Iniciar Emergencia");
+        Button btnIniciar = new Button("🚨 Nueva Emergencia");
         Button btnPausar = new Button("⏸ Pausar");
         Button btnReanudar = new Button("▶ Reanudar");
         Button btnReiniciar = new Button("🔄 Reiniciar");
+        Button btnSimularTrafico = new Button("🚗 Simular Tráfico");
 
-        // Estilos mejorados para botones
         String estiloBoton = "-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-cursor: hand; " +
                 "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);";
 
@@ -71,43 +70,48 @@ public class MapaController {
         btnPausar.setStyle(estiloBoton + "-fx-background-color: #f39c12; -fx-text-fill: white;");
         btnReanudar.setStyle(estiloBoton + "-fx-background-color: #27ae60; -fx-text-fill: white;");
         btnReiniciar.setStyle(estiloBoton + "-fx-background-color: #3498db; -fx-text-fill: white;");
+        btnSimularTrafico.setStyle(estiloBoton + "-fx-background-color: #9b59b6; -fx-text-fill: white;");
 
         btnIniciar.setOnAction(e -> iniciarEmergencia());
         btnPausar.setOnAction(e -> pausarSimulacion());
         btnReanudar.setOnAction(e -> reanudarSimulacion());
         btnReiniciar.setOnAction(e -> reiniciarSimulacion());
-
-        // Botón de simulación de tráfico
-        Button btnSimularTrafico = new Button("🚗 Simular Tráfico");
-        btnSimularTrafico.setStyle(estiloBoton + "-fx-background-color: #9b59b6; -fx-text-fill: white;");
         btnSimularTrafico.setOnAction(e -> simularCongestion());
 
         panelSuperior.getChildren().addAll(btnIniciar, btnPausar, btnReanudar, btnReiniciar, btnSimularTrafico);
 
-        // Panel lateral con información MEJORADA
+        // Panel lateral con información
         VBox panelLateral = new VBox(12);
         panelLateral.setPadding(new Insets(15));
         panelLateral.setStyle("-fx-background-color: linear-gradient(to bottom, #34495e, #2c3e50); " +
                 "-fx-background-radius: 10px;");
-        panelLateral.setPrefWidth(250);
+        panelLateral.setPrefWidth(280);
 
-        // Título
         Label titulo = new Label("📊 PANEL DE CONTROL");
         titulo.setStyle("-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;");
+
+        // Sección: Ubicaciones
+        Label subtituloUbicaciones = new Label("📍 UBICACIONES");
+        subtituloUbicaciones.setStyle("-fx-text-fill: #ecf0f1; -fx-font-size: 14px; -fx-font-weight: bold;");
+
+        lblPosicionInicial = crearLabel("🚑 Ambulancia: ---");
+        lblUbicacionAccidente = crearLabel("🆘 Accidente: ---");
+        lblUbicacionHospital = crearLabel("🏥 Hospital: ---");
+
+        Label separador1 = crearSeparador();
 
         // Sección: Estado de Emergencia
         Label subtituloEmergencia = new Label("🚨 EMERGENCIA");
         subtituloEmergencia.setStyle("-fx-text-fill: #ecf0f1; -fx-font-size: 14px; -fx-font-weight: bold;");
 
         lblEstado = crearLabel("Estado: Esperando");
+        lblEstadoDetallado = crearLabel("⏳ Sin emergencia activa");
         lblDistancia = crearLabel("Distancia: 0.00 km");
-        lblTiempo = crearLabel("Tiempo: 0.0 min");
+        lblTiempo = crearLabel("Tiempo: 0.0 seg");
         lblProgreso = crearLabel("Progreso: 0%");
         lblRutasRecalculadas = crearLabel("Rutas recalculadas: 0");
 
-        // Separador
-        Label separador1 = new Label("─".repeat(30));
-        separador1.setStyle("-fx-text-fill: #7f8c8d;");
+        Label separador2 = crearSeparador();
 
         // Sección: Sistema Inteligente
         Label subtituloSistema = new Label("🤖 SISTEMA INTELIGENTE");
@@ -116,9 +120,7 @@ public class MapaController {
         lblSemaforosPrioridad = crearLabel("Semáforos en prioridad: 0");
         lblCongestion = crearLabel("Congestión promedio: 0%");
 
-        // Separador
-        Label separador2 = new Label("─".repeat(30));
-        separador2.setStyle("-fx-text-fill: #7f8c8d;");
+        Label separador3 = crearSeparador();
 
         // Leyenda
         Label tituloLeyenda = new Label("🗺️ LEYENDA");
@@ -127,37 +129,40 @@ public class MapaController {
         VBox leyenda = new VBox(5);
         leyenda.getChildren().addAll(
                 crearItemLeyenda("🟢", "Semáforo Verde"),
-                crearItemLeyenda("🟡", "Semáforo Amarillo"),
                 crearItemLeyenda("🔴", "Semáforo Rojo"),
                 crearItemLeyenda("💚", "Prioridad Activa"),
                 crearItemLeyenda("🚑", "Ambulancia"),
-                crearItemLeyenda("📍", "Accidente"),
-                crearItemLeyenda("🏥", "Hospital")
+                crearItemLeyenda("🆘", "Accidente (Aleatorio)"),
+                crearItemLeyenda("🏥", "Hospital (Fijo)")
         );
 
-        // Atribución OSM
-        Label atribucion = new Label("\n© OpenStreetMap contributors\nODbL License");
-        atribucion.setStyle("-fx-text-fill: #95a5a6; -fx-font-size: 9px; -fx-text-alignment: center;");
+        Label atribucion = new Label("\n© OpenStreetMap contributors");
+        atribucion.setStyle("-fx-text-fill: #95a5a6; -fx-font-size: 9px;");
 
         panelLateral.getChildren().addAll(
                 titulo,
+                subtituloUbicaciones,
+                lblPosicionInicial,
+                lblUbicacionAccidente,
+                lblUbicacionHospital,
+                separador1,
                 subtituloEmergencia,
                 lblEstado,
+                lblEstadoDetallado,
                 lblDistancia,
                 lblTiempo,
                 lblProgreso,
                 lblRutasRecalculadas,
-                separador1,
+                separador2,
                 subtituloSistema,
                 lblSemaforosPrioridad,
                 lblCongestion,
-                separador2,
+                separador3,
                 tituloLeyenda,
                 leyenda,
                 atribucion
         );
 
-        // Agregar componentes al root
         root.setTop(panelSuperior);
         root.setCenter(canvas);
         root.setRight(panelLateral);
@@ -166,7 +171,14 @@ public class MapaController {
     private Label crearLabel(String texto) {
         Label label = new Label(texto);
         label.setStyle("-fx-text-fill: #ecf0f1; -fx-font-size: 12px;");
+        label.setWrapText(true);
         return label;
+    }
+
+    private Label crearSeparador() {
+        Label sep = new Label("─".repeat(35));
+        sep.setStyle("-fx-text-fill: #7f8c8d;");
+        return sep;
     }
 
     private HBox crearItemLeyenda(String simbolo, String descripcion) {
@@ -183,32 +195,45 @@ public class MapaController {
         simulador = new Simulador();
         simulador.crearMapaCiudad();
 
-        // Ajustar tamaño del canvas
         MapaOSM mapa = simulador.getMapa();
         if (mapa != null) {
             canvas.setWidth(mapa.getAnchoPixeles());
             canvas.setHeight(mapa.getAltoPixeles());
         }
+
+        // Mostrar ubicaciones iniciales
+        actualizarLabelsUbicaciones();
+    }
+
+    private void actualizarLabelsUbicaciones() {
+        Nodo posInicial = simulador.getNodoPosicionInicialAmbulancia();
+        Nodo accidente = simulador.getNodoAccidenteActual();
+        Nodo hospital = simulador.getNodoHospital();
+
+        if (posInicial != null) {
+            lblPosicionInicial.setText("🚑 Ambulancia: " + posInicial.getNombre());
+        }
+
+        if (accidente != null) {
+            lblUbicacionAccidente.setText("🆘 Accidente: " + accidente.getNombre());
+        } else {
+            lblUbicacionAccidente.setText("🆘 Accidente: (generando...)");
+        }
+
+        if (hospital != null) {
+            lblUbicacionHospital.setText("🏥 Hospital: " + hospital.getNombre());
+        }
     }
 
     private void iniciarEmergencia() {
-        Grafo grafo = simulador.getGrafo();
+        // Generar nueva emergencia con ubicaciones aleatorias
+        simulador.generarNuevaEmergencia();
+        actualizarLabelsUbicaciones();
+
         Ambulancia ambulancia = simulador.getAmbulancia();
-
-        // Base → Accidente → Hospital (dos etapas)
-        Nodo base = grafo.getNodo("n0");
-        Nodo accidente = grafo.getNodo("n6");
-
-        if (base != null && accidente != null && ambulancia != null) {
-            List<Nodo> rutaAlAccidente = grafo.calcularRutaMasCorta(base, accidente);
-
-            if (!rutaAlAccidente.isEmpty()) {
-                ambulancia.iniciarEmergencia(rutaAlAccidente, accidente);
-                lblEstado.setText("Estado: 🚨 En ruta al accidente");
-                animacionActiva = true;
-            } else {
-                lblEstado.setText("Estado: ❌ No hay ruta disponible");
-            }
+        if (ambulancia != null && ambulancia.isEnEmergencia()) {
+            lblEstado.setText("Estado: 🚨 Emergencia activa");
+            animacionActiva = true;
         }
     }
 
@@ -231,12 +256,13 @@ public class MapaController {
     private void reiniciarSimulacion() {
         simulador.reiniciar();
         lblEstado.setText("Estado: Esperando");
+        lblEstadoDetallado.setText("⏳ Sin emergencia activa");
         lblDistancia.setText("Distancia: 0.00 km");
-        lblTiempo.setText("Tiempo: 0.0 min");
+        lblTiempo.setText("Tiempo: 0.0 seg");
         lblProgreso.setText("Progreso: 0%");
         lblRutasRecalculadas.setText("Rutas recalculadas: 0");
-        lblSemaforosPrioridad.setText("Semáforos en prioridad: 0");
-        lblCongestion.setText("Congestión promedio: 0%");
+
+        actualizarLabelsUbicaciones();
 
         if (!animacionActiva && animacion != null) {
             animacion.start();
@@ -245,13 +271,12 @@ public class MapaController {
     }
 
     private void simularCongestion() {
-        // Simular congestión aleatoria en algunas calles
         Grafo grafo = simulador.getGrafo();
         java.util.Random random = new java.util.Random();
 
         int callesCongestionadas = 0;
         for (Arista arista : grafo.getAristas()) {
-            if (random.nextDouble() < 0.3) { // 30% de probabilidad
+            if (random.nextDouble() < 0.3) {
                 arista.setFactorTrafico(1.5 + random.nextDouble());
                 callesCongestionadas++;
             }
@@ -276,9 +301,13 @@ public class MapaController {
         simulador.actualizar();
 
         Ambulancia ambulancia = simulador.getAmbulancia();
-        if (ambulancia != null && ambulancia.isEnEmergencia()) {
-            // Actualizar información básica
-            lblEstado.setText("Estado: 🚨 Emergencia activa");
+        if (ambulancia != null && (ambulancia.isEnEmergencia() ||
+                ambulancia.getEstadoActual() != Ambulancia.EstadoEmergencia.ESPERANDO)) {
+
+            // Actualizar estado detallado
+            lblEstadoDetallado.setText(ambulancia.getDescripcionEstado());
+
+            // Actualizar métricas
             lblDistancia.setText(String.format("Distancia: %.2f km", simulador.getDistanciaRecorrida()));
             lblTiempo.setText(String.format("Tiempo: %.1f seg", ambulancia.getTiempoEmergencia() / 1000.0));
             lblProgreso.setText(String.format("Progreso: %.0f%%", ambulancia.getProgreso() * 100));
@@ -313,17 +342,14 @@ public class MapaController {
         // 2. Dibujar aristas con indicador de congestión
         for (Arista arista : grafo.getAristas()) {
             double congestion = arista.getFactorTrafico();
+            Color colorCalle = Color.rgb(52, 152, 219); // Azul por defecto
 
-            // Color según congestión
-            Color colorCalle;
             if (congestion > 2.0) {
-                colorCalle = Color.rgb(231, 76, 60); // Rojo oscuro
+                colorCalle = Color.rgb(231, 76, 60);
             } else if (congestion > 1.5) {
-                colorCalle = Color.rgb(230, 126, 34); // Naranja
+                colorCalle = Color.rgb(230, 126, 34);
             } else if (congestion > 1.2) {
-                colorCalle = Color.rgb(241, 196, 15); // Amarillo
-            } else {
-                colorCalle = Color.rgb(52, 152, 219); // Azul normal
+                colorCalle = Color.rgb(241, 196, 15);
             }
 
             gc.setGlobalAlpha(0.6);
@@ -336,126 +362,91 @@ public class MapaController {
         }
         gc.setGlobalAlpha(1.0);
 
-        // 3. Dibujar ruta de la ambulancia con efecto brillante
+        // 3. Dibujar ruta de la ambulancia
         Ambulancia ambulancia = simulador.getAmbulancia();
         if (ambulancia != null && ambulancia.getRutaActual() != null) {
             List<Nodo> ruta = ambulancia.getRutaActual();
 
-            // Sombra de la ruta
-            gc.setGlobalAlpha(0.3);
-            gc.setStroke(Color.BLACK);
-            gc.setLineWidth(8);
-            for (int i = 0; i < ruta.size() - 1; i++) {
-                Nodo actual = ruta.get(i);
-                Nodo siguiente = ruta.get(i + 1);
-                gc.strokeLine(actual.getX(), actual.getY() + 2,
-                        siguiente.getX(), siguiente.getY() + 2);
+            // Color según etapa
+            Color colorRuta;
+            if (ambulancia.getEstadoActual() == Ambulancia.EstadoEmergencia.EN_RUTA_HOSPITAL) {
+                colorRuta = Color.rgb(52, 152, 219); // Azul = llevando paciente
+            } else {
+                colorRuta = Color.rgb(46, 204, 113); // Verde = yendo al accidente
             }
 
-            // Ruta principal con brillo
-            gc.setGlobalAlpha(1.0);
-            gc.setStroke(Color.rgb(46, 204, 113));
+            gc.setGlobalAlpha(0.9);
+            gc.setStroke(colorRuta);
             gc.setLineWidth(6);
             for (int i = 0; i < ruta.size() - 1; i++) {
                 Nodo actual = ruta.get(i);
                 Nodo siguiente = ruta.get(i + 1);
-                gc.strokeLine(actual.getX(), actual.getY(),
-                        siguiente.getX(), siguiente.getY());
+                gc.strokeLine(actual.getX(), actual.getY(), siguiente.getX(), siguiente.getY());
             }
         }
 
-        // 4. Dibujar nodos con semáforos mejorados
+        // 4. Dibujar nodos con semáforos
         for (Nodo nodo : grafo.getNodos().values()) {
-            // Base del nodo
+            gc.setGlobalAlpha(1.0);
             gc.setFill(Color.rgb(52, 73, 94));
             gc.fillOval(nodo.getX() - 18, nodo.getY() - 18, 36, 36);
 
-            // Borde del nodo
-            gc.setStroke(Color.rgb(44, 62, 80));
-            gc.setLineWidth(3);
-            gc.strokeOval(nodo.getX() - 18, nodo.getY() - 18, 36, 36);
-
-            // Semáforo con efecto brillante si tiene prioridad
             Semaforo semaforo = nodo.getSemaforo();
-            Color colorSemaforo;
             boolean tienePrioridad = semaforo.isModoPrioridad();
 
-            switch (semaforo.getEstadoActual()) {
-                case VERDE:
-                    colorSemaforo = Color.rgb(46, 204, 113);
-                    break;
-                case AMARILLO:
-                    colorSemaforo = Color.rgb(241, 196, 15);
-                    break;
-                case ROJO:
-                default:
-                    colorSemaforo = Color.rgb(231, 76, 60);
-                    break;
-            }
+            Color colorSemaforo = semaforo.getEstadoActual() == Semaforo.Estado.VERDE ?
+                    Color.rgb(46, 204, 113) : Color.rgb(231, 76, 60);
 
-            // Efecto de brillo para prioridad
             if (tienePrioridad) {
                 gc.setGlobalAlpha(0.5);
                 gc.setFill(Color.WHITE);
                 gc.fillOval(nodo.getX() - 14, nodo.getY() - 14, 28, 28);
             }
 
-            // Semáforo
             gc.setGlobalAlpha(1.0);
             gc.setFill(colorSemaforo);
             gc.fillOval(nodo.getX() - 10, nodo.getY() - 10, 20, 20);
 
-            // Borde del semáforo
             gc.setStroke(tienePrioridad ? Color.WHITE : Color.BLACK);
-            gc.setLineWidth(tienePrioridad ? 3 : 2);
+            gc.setLineWidth(2);
             gc.strokeOval(nodo.getX() - 10, nodo.getY() - 10, 20, 20);
 
-            // Nombre del nodo con sombra
-            gc.setGlobalAlpha(0.7);
-            gc.setFill(Color.BLACK);
-            gc.fillText(nodo.getNombre(), nodo.getX() - 18, nodo.getY() + 37);
-
-            gc.setGlobalAlpha(1.0);
+            // Nombre del nodo
             gc.setFill(Color.WHITE);
             gc.fillText(nodo.getNombre(), nodo.getX() - 20, nodo.getY() + 35);
         }
 
-        // 5. Dibujar ambulancia con animación
+        // 5. Dibujar ambulancia
         if (ambulancia != null) {
-            // Sombra de ambulancia
-            gc.setGlobalAlpha(0.3);
-            gc.setFill(Color.BLACK);
-            gc.fillRect(ambulancia.getX() - 13, ambulancia.getY() - 11, 26, 26);
-
-            // Ambulancia
             gc.setGlobalAlpha(1.0);
             gc.setFill(Color.rgb(231, 76, 60));
             gc.fillRect(ambulancia.getX() - 15, ambulancia.getY() - 15, 30, 30);
 
-            // Borde blanco
             gc.setStroke(Color.WHITE);
             gc.setLineWidth(2);
             gc.strokeRect(ambulancia.getX() - 15, ambulancia.getY() - 15, 30, 30);
 
-            // Emoji ambulancia
             gc.setFill(Color.WHITE);
             gc.fillText("🚑", ambulancia.getX() - 10, ambulancia.getY() + 5);
+
+            // Indicador si lleva paciente
+            if (ambulancia.tieneParticipante()) {
+                gc.setFill(Color.LIGHTBLUE);
+                gc.fillText("👤", ambulancia.getX() + 15, ambulancia.getY() - 10);
+            }
         }
 
-        // 6. Dibujar marcadores
-        Nodo accidente = grafo.getNodo("n6");
-        if (accidente != null) {
+        // 6. Dibujar marcadores especiales
+        Nodo accidente = simulador.getNodoAccidenteActual();
+        if (accidente != null && ambulancia != null &&
+                ambulancia.getEstadoActual() != Ambulancia.EstadoEmergencia.FINALIZADO) {
             gc.setFill(Color.ORANGE);
-            gc.setStroke(Color.BLACK);
-            gc.setLineWidth(2);
-            gc.fillText("📍 ACCIDENTE", accidente.getX() + 25, accidente.getY());
+            gc.fillText("🆘 ACCIDENTE", accidente.getX() + 25, accidente.getY());
         }
 
-        Nodo hospital = grafo.getNodo("n7");
+        Nodo hospital = simulador.getNodoHospital();
         if (hospital != null) {
             gc.setFill(Color.LIGHTBLUE);
-            gc.setStroke(Color.BLACK);
-            gc.setLineWidth(2);
             gc.fillText("🏥 HOSPITAL", hospital.getX() + 25, hospital.getY());
         }
 
