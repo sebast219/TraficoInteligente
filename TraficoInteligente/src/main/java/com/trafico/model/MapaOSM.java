@@ -3,6 +3,8 @@ package com.trafico.model;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
+import java.util.Objects;
+
 /**
  * Maneja el mapa de OpenStreetMap y la conversión entre coordenadas geográficas y píxeles.
  */
@@ -28,7 +30,7 @@ public class MapaOSM {
                    double latN, double latS, 
                    double lonO, double lonE) {
         try {
-            this.imagenMapa = new Image(getClass().getResourceAsStream("/" + rutaImagen));
+            this.imagenMapa = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/" + rutaImagen)));
             this.latitudNorte = latN;
             this.latitudSur = latS;
             this.longitudOeste = lonO;
@@ -52,16 +54,7 @@ public class MapaOSM {
         double y = ((latitudNorte - lat) / (latitudNorte - latitudSur)) * altoPixeles;
         return new Point2D(x, y);
     }
-    
-    /**
-     * Convierte coordenadas de píxeles a coordenadas geográficas (lat/lon).
-     */
-    public LatLon pixelToLatLon(double x, double y) {
-        double lon = longitudOeste + (x / anchoPixeles) * (longitudEste - longitudOeste);
-        double lat = latitudNorte - (y / altoPixeles) * (latitudNorte - latitudSur);
-        return new LatLon(lat, lon);
-    }
-    
+
     /**
      * Calcula la distancia real entre dos puntos geográficos usando la fórmula de Haversine.
      * @return Distancia en kilómetros
@@ -84,28 +77,7 @@ public class MapaOSM {
     public Image getImagen() {
         return imagenMapa;
     }
-    
-    public double getLatitudNorte() { return latitudNorte; }
-    public double getLatitudSur() { return latitudSur; }
-    public double getLongitudOeste() { return longitudOeste; }
-    public double getLongitudEste() { return longitudEste; }
     public int getAnchoPixeles() { return anchoPixeles; }
     public int getAltoPixeles() { return altoPixeles; }
-    
-    /**
-     * Clase auxiliar para representar coordenadas geográficas.
-     */
-    public static class LatLon {
-        private double latitud;
-        private double longitud;
-        
-        public LatLon(double latitud, double longitud) {
-            this.latitud = latitud;
-            this.longitud = longitud;
-        }
-        
-        public double getLatitud() { return latitud; }
-        public double getLongitud() { return longitud; }
-    }
 }
 

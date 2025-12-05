@@ -7,8 +7,8 @@ import java.util.*;
  * Implementa el algoritmo de Dijkstra para calcular rutas más cortas.
  */
 public class Grafo {
-    private Map<String, Nodo> nodos;
-    private List<Arista> aristas;
+    private final Map<String, Nodo> nodos;
+    private final List<Arista> aristas;
     
     public Grafo() {
         this.nodos = new HashMap<>();

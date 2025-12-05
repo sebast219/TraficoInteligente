@@ -20,8 +20,8 @@ public class Nodo {
     private double x;
     private double y;
     
-    private Semaforo semaforo;
-    private List<Arista> aristasAdyacentes;
+    public Semaforo semaforo;
+    public List<Arista> aristasAdyacentes;
     
     /**
      * Constructor con coordenadas geográficas.

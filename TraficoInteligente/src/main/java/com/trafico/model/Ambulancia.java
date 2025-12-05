@@ -10,7 +10,6 @@ public class Ambulancia extends Vehiculo {
     private List<Nodo> rutaActual;
     private int indiceRutaActual;
     private boolean enEmergencia;
-    private Nodo posicionInicial;
     private Nodo ubicacionAccidente;
     private Nodo hospital;
     private EstadoEmergencia estadoActual;
@@ -54,7 +53,6 @@ public class Ambulancia extends Vehiculo {
             return;
         }
 
-        this.posicionInicial = posicionInicial;
         this.ubicacionAccidente = accidente;
         this.hospital = hospital;
         this.rutaActual = rutaInicialHaciaAccidente;
@@ -95,7 +93,7 @@ public class Ambulancia extends Vehiculo {
     }
 
     /**
-     * Procesa la llegada a un destino (accidente o hospital).
+     * Procesa la llegada a un destino (accidente u hospital).
      */
     private void procesarLlegadaADestino() {
         switch (estadoActual) {
@@ -185,7 +183,6 @@ public class Ambulancia extends Vehiculo {
 
     public void reiniciar() {
         this.rutaActual = null;
-        this.posicionInicial = null;
         this.ubicacionAccidente = null;
         this.hospital = null;
         this.enEmergencia = false;
@@ -208,22 +205,14 @@ public class Ambulancia extends Vehiculo {
      * Retorna descripción detallada del estado actual.
      */
     public String getDescripcionEstado() {
-        switch (estadoActual) {
-            case ESPERANDO:
-                return "⏳ Esperando llamada de emergencia";
-            case EN_RUTA_ACCIDENTE:
-                return "🚨 En ruta hacia el accidente";
-            case EN_ACCIDENTE:
-                return "🆘 Atendiendo en el lugar del accidente";
-            case EN_RUTA_HOSPITAL:
-                return "🏥 Trasladando paciente al hospital";
-            case EN_HOSPITAL:
-                return "✅ Paciente entregado en hospital";
-            case FINALIZADO:
-                return "✓ Emergencia completada";
-            default:
-                return "❓ Estado desconocido";
-        }
+        return switch (estadoActual) {
+            case ESPERANDO -> "⏳ Esperando llamada de emergencia";
+            case EN_RUTA_ACCIDENTE -> "🚨 En ruta hacia el accidente";
+            case EN_ACCIDENTE -> "🆘 Atendiendo en el lugar del accidente";
+            case EN_RUTA_HOSPITAL -> "🏥 Trasladando paciente al hospital";
+            case EN_HOSPITAL -> "✅ Paciente entregado en hospital";
+            case FINALIZADO -> "✓ Emergencia completada";
+        };
     }
 
     /**
@@ -245,19 +234,6 @@ public class Ambulancia extends Vehiculo {
     public boolean isEnEmergencia() {
         return enEmergencia;
     }
-
-    public Nodo getPosicionInicial() {
-        return posicionInicial;
-    }
-
-    public Nodo getUbicacionAccidente() {
-        return ubicacionAccidente;
-    }
-
-    public Nodo getHospital() {
-        return hospital;
-    }
-
     /**
      * Retorna el destino actual según el estado.
      * - Si va al accidente: retorna ubicacionAccidente
@@ -265,15 +241,11 @@ public class Ambulancia extends Vehiculo {
      * - En otros casos: retorna null
      */
     public Nodo getDestino() {
-        switch (estadoActual) {
-            case EN_RUTA_ACCIDENTE:
-                return ubicacionAccidente;
-            case EN_RUTA_HOSPITAL:
-            case EN_ACCIDENTE:
-                return hospital;
-            default:
-                return null;
-        }
+        return switch (estadoActual) {
+            case EN_RUTA_ACCIDENTE -> ubicacionAccidente;
+            case EN_RUTA_HOSPITAL, EN_ACCIDENTE -> hospital;
+            default -> null;
+        };
     }
 
     public EstadoEmergencia getEstadoActual() {
@@ -290,13 +262,5 @@ public class Ambulancia extends Vehiculo {
 
     public long getTiempoEmergencia() {
         return enEmergencia ? System.currentTimeMillis() - tiempoInicioEmergencia : 0;
-    }
-
-    public long getTiempoInicioEmergencia() {
-        return tiempoInicioEmergencia;
-    }
-
-    public long getTiempoLlegadaAccidente() {
-        return tiempoLlegadaAccidente;
     }
 }

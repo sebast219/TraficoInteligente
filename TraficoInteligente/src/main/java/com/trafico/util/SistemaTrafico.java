@@ -12,10 +12,9 @@ import java.util.*;
  * Coordina semáforos, detecta congestión, y optimiza rutas en tiempo real.
  */
 public class SistemaTrafico {
-    private Grafo grafo;
-    private Map<Nodo, EstadoInterseccion> estadosIntersecciones;
-    private List<Ambulancia> ambulanciasActivas;
-    private static final double RADIO_DETECCION = 200; // metros
+    private final Grafo grafo;
+    private final Map<Nodo, EstadoInterseccion> estadosIntersecciones;
+    private final List<Ambulancia> ambulanciasActivas;
     private static final double TIEMPO_ANTICIPACION = 15.0; // segundos
 
     public SistemaTrafico(Grafo grafo) {
@@ -52,12 +51,6 @@ public class SistemaTrafico {
         // 4. Recalcular rutas si hay cambios significativos
         recalcularRutasSiNecesario();
     }
-
-    /**
-     * Sistema inteligente de prioridad para ambulancias.
-     * Calcula cuándo llegará la ambulancia a cada intersección y activa
-     * semáforos con anticipación para crear "onda verde".
-     */
     private void gestionarPrioridadAmbulancia(Ambulancia ambulancia) {
         List<Nodo> ruta = ambulancia.getRutaActual();
         if (ruta == null || ruta.isEmpty()) return;
@@ -223,13 +216,6 @@ public class SistemaTrafico {
     }
 
     /**
-     * Desregistra una ambulancia del sistema.
-     */
-    public void desregistrarAmbulancia(Ambulancia ambulancia) {
-        ambulanciasActivas.remove(ambulancia);
-    }
-
-    /**
      * Obtiene estadísticas del sistema.
      */
     public EstadisticasSistema getEstadisticas() {
@@ -263,20 +249,17 @@ public class SistemaTrafico {
     // Clase interna: Estado de Intersección
     // ============================================
     private static class EstadoInterseccion {
-        private Nodo nodo;
+        private final Nodo nodo;
         private boolean ambulanciaCercana;
         private double tiempoHastaAmbulancia;
-        private long ultimaActualizacion;
 
         public EstadoInterseccion(Nodo nodo) {
             this.nodo = nodo;
             this.ambulanciaCercana = false;
             this.tiempoHastaAmbulancia = Double.MAX_VALUE;
-            this.ultimaActualizacion = System.currentTimeMillis();
         }
 
         public void actualizar(double deltaTime) {
-            // Si hay ambulancia cercana, reducir tiempo hasta llegada
             if (ambulanciaCercana) {
                 tiempoHastaAmbulancia -= deltaTime;
 
@@ -299,19 +282,9 @@ public class SistemaTrafico {
     }
 
     // ============================================
-    // Clase de estadísticas
-    // ============================================
-    public static class EstadisticasSistema {
-        public final int ambulanciasActivas;
-        public final int semaforosEnVerde;
-        public final int semaforosConPrioridad;
-        public final double congestionPromedio;
-
-        public EstadisticasSistema(int ambulancias, int verdes, int prioridad, double congestion) {
-            this.ambulanciasActivas = ambulancias;
-            this.semaforosEnVerde = verdes;
-            this.semaforosConPrioridad = prioridad;
-            this.congestionPromedio = congestion;
-        }
+        // Clase de estadísticas
+        // ============================================
+        public record EstadisticasSistema(int ambulanciasActivas, int semaforosEnVerde, int semaforosConPrioridad,
+                                          double congestionPromedio) {
     }
 }
